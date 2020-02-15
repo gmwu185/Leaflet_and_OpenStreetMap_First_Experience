@@ -30,9 +30,21 @@
       zoom: 16
     });
 
+    var greenIcon = new L.Icon({
+      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+
+    L.marker([24.131488, 120.658406], {icon: greenIcon}).addTo(map)
+    .bindPopup('<h2>崇倫國中</h2>')
 
     L.marker([24.1338065,120.658394]).addTo(map)
       .bindPopup('<h2>大勇國小</h2>')
