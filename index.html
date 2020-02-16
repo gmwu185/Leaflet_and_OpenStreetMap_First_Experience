@@ -93,35 +93,98 @@
       shadowSize: [41, 41]
     });
 
-    var markerMapData = [
-      { 'name': '大勇國小', let: 24.1338065, lng: 120.658394 },
-      { 'name': '崇倫國中', let: 24.131488, lng: 120.658406 },
-    ];
-
+    
     var markers = new L.MarkerClusterGroup().addTo(map);
     
     
-    /*----------  寫法一 (範例寫法) ----------*/
-    for( let i=0; i<markerMapData.length; i++ ){
-      console.log( markerMapData[i].name);
-      markers.addLayer(
-        L.marker([ markerMapData[i].let, markerMapData[i].lng ], { icon: greenIcon })
-          .bindPopup(`<h2>${ markerMapData[i].name }</h2>`)
-      );
-    };
-    map.addLayer(markers);
+    /*=============================================
+    =            模擬資料            =
+    =============================================*/
+    
+    // var markerMapData = [
+    //   { 'name': '大勇國小', let: 24.1338065, lng: 120.658394 },
+    //   { 'name': '崇倫國中', let: 24.131488, lng: 120.658406 },
+    // ];
+    /*----------  模擬資料寫法一 (範例寫法) ----------*/
+    // for( let i=0; i<markerMapData.length; i++ ){
+    //   console.log( markerMapData[i].name);
+    //   markers.addLayer(
+    //     L.marker([ markerMapData[i].let, markerMapData[i].lng ], { icon: greenIcon })
+    //       .bindPopup(`<h2>${ markerMapData[i].name }</h2>`)
+    //   );
+    // };
+    // map.addLayer(markers);
 
-    /*----------  寫法二 ----------*/
+    /*----------  模擬資料寫法二 ----------*/
     // for (var i=0; i<markerMapData.length; i++) {
     //   console.log(markerMapData[i].name);
     //   markers.addLayer(
     //     L.marker(
     //       [ markerMapData[i].let, markerMapData[i].lng ],
     //       { icon: greenIcon }
-    //     ).addTo(map)
+    //     )
+    //       // .addTo(map) // 不在迴圈中使用 .add() 每次都載入一次圖資框架，在迴圈完後一次執行效能較好。
     //       .bindPopup(`<h2>${ markerMapData[i].name }</h2>`)
     //   )
     // };
+    // map.addLayer(markers);    
+    
+    /*=====  End of 模擬資料  ======*/
+    
+    
+
+    /*=============================================
+    =            實際倒入資料            =
+    =============================================*/
+    
+    var xhr = new XMLHttpRequest();
+    
+    // 取得資料於本地端
+    
+    // xhr.open("get","data/points.json");
+    // 取得資料於遠端
+    xhr.open("get","https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json");
+    xhr.send();
+    // console.log('xhr', xhr);
+    xhr.onload = function(){
+      var markerJsonData = JSON.parse(xhr.responseText).features;
+      // console.log('markerJsonData', markerJsonData);
+
+      /*----------  實際倒入資料寫法一 (範例寫法) ----------*/
+      for( let i=0; i<markerJsonData.length; i++ ){
+        // 照著資料格式寫
+        // console.log( markerJsonData[i].properties.name );
+        // console.log('markerJsonData[i].geometry.coordinates[0]', markerJsonData[i].geometry.coordinates[0]);
+        markers.addLayer(
+          L.marker(
+            [ 
+              markerJsonData[i].geometry.coordinates[1], 
+              markerJsonData[i].geometry.coordinates[0] 
+            ], 
+            { icon: greenIcon }
+          ).bindPopup(`<h2>${ markerJsonData[i].properties.name }</h2>`)
+        )
+      };
+      map.addLayer(markers);
+
+      /*----------  實際倒入資料寫法二 ----------*/
+      // for (var i=0; i<markerJsonData.length; i++) {
+      //   // console.log( markerJsonData[i].properties.name );
+      //   markers.addLayer(
+      //     L.marker(
+      //       [ 
+      //         markerJsonData[i].geometry.coordinates[1], 
+      //         markerJsonData[i].geometry.coordinates[0] 
+      //       ],
+      //       { icon: greenIcon },
+      //     )
+      //       .bindPopup(`<h2>${ markerJsonData[i].properties.name }</h2>`)
+      //   )
+      // };
+      // map.addLayer(markers);
+    };
+    
+    /*=====  End of 實際倒入資料  ======*/
   </script>
 </body>
 
