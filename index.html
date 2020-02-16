@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaflet_and_OpenStreetMap_AJAX | First Experience</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+  <!-- markercluster 套件樣式 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"></link> 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"></link>
+  <!-- /markercluster 套件樣式 -->
   <style>
     html,body{
       width: 100%;
@@ -16,12 +20,57 @@
       width: 100%;
       height: 100%; 
     }
+
+    /* 自定圖標郡組樣式 */
+    .marker-cluster-small {
+      background-color: rgba(181, 226, 140, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(110, 204, 57, 0.6);
+    }
+
+    .marker-cluster-medium {
+      background-color: rgba(241, 211, 87, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(240, 194, 12, 0.6);
+    }
+
+    .marker-cluster-large {
+      background-color: rgba(253, 156, 115, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(241, 128, 23, 0.6);
+    }
+
+    .marker-cluster {
+      background-clip: padding-box;
+      border-radius: 20px;
+    }
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+
+      text-align: center;
+      border-radius: 15px;
+      font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    }
+    .marker-cluster span {
+      line-height: 30px;
+    }
+    /* /自定圖標郡組樣式 */
   </style>
 </head>
 <body>
   <!-- <a href="https://goo.gl/maps/owMrUBjv5L4nE23SA" target="_blank">前往大勇國小</a> -->
   <div id="map"></div>
+  
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <!-- markercluster 套件 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+  <!-- /markercluster 套件 -->
   <script>
     // console.log('L', L);
 
@@ -30,6 +79,10 @@
       center: [24.1338065,120.658394],
       zoom: 16
     });
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
     var greenIcon = new L.Icon({
       iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -40,22 +93,35 @@
       shadowSize: [41, 41]
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var maskMapData = [
+    var markerMapData = [
       { 'name': '大勇國小', let: 24.1338065, lng: 120.658394 },
       { 'name': '崇倫國中', let: 24.131488, lng: 120.658406 },
     ];
 
-    for (var i=0; i<maskMapData.length; i++) {
-      L.marker(
-        [ maskMapData[i].let, maskMapData[i].lng ],
-        { icon: greenIcon }
-      ).addTo(map)
-        .bindPopup(`<h2>${maskMapData[i].name}</h2>`)
-    }
+    var markers = new L.MarkerClusterGroup().addTo(map);
+    
+    
+    /*----------  寫法一 (範例寫法) ----------*/
+    for( let i=0; i<markerMapData.length; i++ ){
+      console.log( markerMapData[i].name);
+      markers.addLayer(
+        L.marker([ markerMapData[i].let, markerMapData[i].lng ], { icon: greenIcon })
+          .bindPopup(`<h2>${ markerMapData[i].name }</h2>`)
+      );
+    };
+    map.addLayer(markers);
+
+    /*----------  寫法二 ----------*/
+    // for (var i=0; i<markerMapData.length; i++) {
+    //   console.log(markerMapData[i].name);
+    //   markers.addLayer(
+    //     L.marker(
+    //       [ markerMapData[i].let, markerMapData[i].lng ],
+    //       { icon: greenIcon }
+    //     ).addTo(map)
+    //       .bindPopup(`<h2>${ markerMapData[i].name }</h2>`)
+    //   )
+    // };
   </script>
 </body>
 
