@@ -5,177 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaflet_and_OpenStreetMap_AJAX | First Experience</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="./assets/css/leaflet.css" />
   <!-- markercluster 套件樣式 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"></link> 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"></link>
+  <link href="./assets/css/MarkerCluster.css"></link> 
+  <link href="./assets/css/MarkerCluster.Default.css"></link>
   <!-- /markercluster 套件樣式 -->
-  <style>
-    html,body{
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-    #map { 
-      width: 100%;
-      height: 100%; 
-    }
-
-    /* 自定圖標郡組樣式 */
-    .marker-cluster-small {
-      background-color: rgba(181, 226, 140, 0.6);
-    }
-    .marker-cluster-small div {
-      background-color: rgba(110, 204, 57, 0.6);
-    }
-
-    .marker-cluster-medium {
-      background-color: rgba(241, 211, 87, 0.6);
-    }
-    .marker-cluster-medium div {
-      background-color: rgba(240, 194, 12, 0.6);
-    }
-
-    .marker-cluster-large {
-      background-color: rgba(253, 156, 115, 0.6);
-    }
-    .marker-cluster-large div {
-      background-color: rgba(241, 128, 23, 0.6);
-    }
-
-    .marker-cluster {
-      background-clip: padding-box;
-      border-radius: 20px;
-    }
-    .marker-cluster div {
-      width: 30px;
-      height: 30px;
-      margin-left: 5px;
-      margin-top: 5px;
-
-      text-align: center;
-      border-radius: 15px;
-      font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
-    }
-    .marker-cluster span {
-      line-height: 30px;
-    }
-    /* /自定圖標郡組樣式 */
-  </style>
+  <link rel="stylesheet" href="./assets/css/main.css">
 </head>
 <body>
   <!-- <a href="https://goo.gl/maps/owMrUBjv5L4nE23SA" target="_blank">前往大勇國小</a> -->
   <div id="map"></div>
   
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="./assets/js/leaflet.js"></script>
   <!-- markercluster 套件 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+  <script src="./assets/js/leaflet.markercluster.js"></script>
   <!-- /markercluster 套件 -->
-  <script>
-    // console.log('L', L);
-
-    // zoom 地圖最大可放大到 18
-    var map = L.map('map', {
-      center: [24.1338065,120.658394],
-      zoom: 16
-    });
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var greenIcon = new L.Icon({
-      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-    var redIcon = new L.Icon({
-      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-    var violetIcon = new L.Icon({
-      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-    var greyIcon = new L.Icon({
-      iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-    
-    var markers = new L.MarkerClusterGroup().addTo(map);
-
-    /*=============================================
-    =            實際倒入資料            =
-    =============================================*/
-    
-    var xhr = new XMLHttpRequest();
-    
-    // 取得資料於本地端
-    // xhr.open("get", "data/points.json");
-    // 取得資料於遠端
-    xhr.open("get","https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json");
-    xhr.send();
-    // console.log('xhr', xhr);
-    xhr.onload = function(){
-      var markerJsonData = JSON.parse(xhr.responseText).features;
-      console.log('markerJsonData', markerJsonData);
-      
-      for( let i=0; i<markerJsonData.length; i++ ){
-        var mask;
-        /** 
-         * 成人與小孩都有 -> greenIcon
-         * 成人與小孩都沒有 -> greyIcon
-         * 小孩 == 0 -> redIcon
-         * 成人 == 0 -> violetIcon
-        */
-        if( markerJsonData[i].properties.mask_adult !== 0 && markerJsonData[i].properties.mask_child !== 0){
-          mask = greenIcon;
-        } else if ( markerJsonData[i].properties.mask_adult == 0 && markerJsonData[i].properties.mask_child == 0 ) {
-          mask = greyIcon;
-        } else if ( markerJsonData[i].properties.mask_child == 0 ) {
-          mask = redIcon;
-        } else if ( markerJsonData[i].properties.mask_adult == 0 ) {
-          mask = violetIcon;
-        }
-        markers.addLayer(
-          L.marker(
-            [ 
-              markerJsonData[i].geometry.coordinates[1], 
-              markerJsonData[i].geometry.coordinates[0] 
-            ], 
-            { icon: mask }
-          ).bindPopup(`
-              <div style='text-align: center;'>
-                <h1>${ markerJsonData[i].properties.name }</h1>
-                <p>
-                  成人口罩數量：${markerJsonData[i].properties.mask_adult} <br>
-                  小孩口罩數量：${markerJsonData[i].properties.mask_child} <br>
-                  地址：${markerJsonData[i].properties.address} 
-                </p>
-              </div>
-            `)
-        )
-      };
-      map.addLayer(markers);
-    };
-    
-    /*=====  End of 實際倒入資料  ======*/
-  </script>
+  <script src="./assets/js/main.js"></script>
 </body>
 
 </html>
