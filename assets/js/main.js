@@ -1,4 +1,4 @@
- // console.log('L', L);
+// console.log('L', L);
 
 // zoom 地圖最大可放大到 18
 var map = L.map('map', {
@@ -101,3 +101,20 @@ xhr.onload = function(){
 };
 
 /*=====  End of 實際倒入資料  ======*/
+
+
+// $(function(){
+//   // console.log('jQuery Run');
+// });
+
+$(document).ready(function(){
+  $(".js-c-slideToggle__btn").click(function(e){
+    $(".js-c-slideToggle__panel").slideToggle(200);
+    // console.log('e', e);
+  });
+  $(document).keydown(function(e) {
+    if (e.keyCode == 27) {
+      $(".js-c-slideToggle__panel").hide(0);
+    }
+  });
+});

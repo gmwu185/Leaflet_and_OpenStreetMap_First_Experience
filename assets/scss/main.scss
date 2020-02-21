@@ -1,0 +1,85 @@
+
+
+
+/*=============================================
+=            var            =
+=============================================*/
+
+// $primaryColor: #0D9854;
+$primaryColor: #333;
+$fontSz--base: 15px;
+$fontSz--xl: 1.5rem ;
+$fontSz--xxl: 2rem;
+// $fontTypeGroups--base: 'Noto Sans TC', "微軟正黑體", "Microsoft JhengHei", Arial, Helvetica, sans-serif;
+$fontTypeGroups--base: 'Noto Sans TC', Arial, Helvetica, sans-serif;
+/*=====  End of var  ======*/
+
+
+
+/*=============================================
+=            baase            =
+=============================================*/
+
+@import 'base/resetCss';
+
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
+html, body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+html{
+  font-size: $fontSz--base;
+}
+
+h1 {
+  font-size: $fontSz--xxl;
+  font-weight: bold;
+}
+
+/*=====  End of baase  ======*/
+
+
+
+
+
+/*=============================================
+=            font set            =
+=============================================*/
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+body{
+  font-family: $fontTypeGroups--base;
+}
+/*=====  End of font set  ======*/
+
+
+
+
+/*=============================================
+=            vendors            =
+=============================================*/
+
+@import 'vendors/leaflet';
+@import 'vendors/MarkerCluster';
+@import 'vendors/MarkerCluster.Default';
+
+/*=====  End of vendors  ======*/
+
+
+
+
+/*=============================================
+=            components            =
+=============================================*/
+
+@import 'components/slideToggle';
+@import 'components/coustonMap';
+
+/*=====  End of components  ======*/
+

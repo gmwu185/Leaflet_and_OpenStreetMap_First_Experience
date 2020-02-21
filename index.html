@@ -5,21 +5,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaflet_and_OpenStreetMap_AJAX | First Experience</title>
-  <link rel="stylesheet" href="./assets/css/leaflet.css" />
+  <!-- <link rel="stylesheet" href="./assets/css/leaflet.css"> -->
   <!-- markercluster 套件樣式 -->
-  <link href="./assets/css/MarkerCluster.css"></link> 
-  <link href="./assets/css/MarkerCluster.Default.css"></link>
+  <!-- <link href="./assets/css/MarkerCluster.css"></link>  -->
+  <!-- <link href="./assets/css/MarkerCluster.Default.css"></link> -->
   <!-- /markercluster 套件樣式 -->
   <link rel="stylesheet" href="./assets/css/main.css">
 </head>
 <body>
-  <!-- <a href="https://goo.gl/maps/owMrUBjv5L4nE23SA" target="_blank">前往大勇國小</a> -->
-  <div id="map"></div>
-  
+
+  <div class="c-slideToggle" id="demo-header">
+    <!-- Code for Login Link -->
+    <a class="c-slideToggle__btn c-slideToggle__btn--bg c-slideToggle__btn--border c-slideToggle--shadow js-c-slideToggle__btn" title="圖示說明" href="#">
+      <!-- <img class="c-slideToggle__btn__img" src="assets/img/house-home-location-position-home-position-general-icon.png" alt="" srcset=""> -->
+      <!-- 圖示說明 -->
+    </a>
+    <!-- Code for login panel -->
+    <div class="c-slideToggle__panel c-slideToggle__panel--border js-c-slideToggle__panel c-slideToggle--shadow">
+      <ol class="c-slideToggle__panel__list">
+        <li class="c-slideToggle__panel__list__item">
+          <img src="./assets/img/marker-icon-2x-green.png" alt="">
+          都還有
+        </li>
+        <li class="c-slideToggle__panel__list__item">
+          <img src="./assets/img/marker-icon-2x-grey.png" alt="">
+          都沒有
+        </li>
+        <li class="c-slideToggle__panel__list__item">
+          <img src="./assets/img/marker-icon-2x-red.png" alt="">
+          剩大人
+        </li>
+        <li class="c-slideToggle__panel__list__item">
+          <img src="./assets/img/marker-icon-2x-violet.png" alt="">
+          剩小孩
+        </li>
+      </ol>
+      <small class="c-slideToggle__panel__small">按 ESC 鍵關閉</small>
+    </div>
+  </div>
+
+  <div id="map"></div>  
+
+  <script src="./assets/js/jquery.min.js"></script>
   <script src="./assets/js/leaflet.js"></script>
   <!-- markercluster 套件 -->
   <script src="./assets/js/leaflet.markercluster.js"></script>
-  <!-- /markercluster 套件 -->
+  <!--markercluster 套件 -->
   <script src="./assets/js/main.js"></script>
 </body>
 
